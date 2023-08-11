@@ -781,23 +781,61 @@ const input = [
     "FBFBFBFLRR",
     "BFBFFFFRLL",
   ];
-//   split at number in half ever f/b
 
-/*You dig through the papers and find his logs. He has a system of labeling the front of the yard ‘F’, backyard ‘B’, the left side ‘L’ and the right side ‘R’. 
+  // You dig through the papers and find his logs. He has a system of labeling the front of the yard ‘F’, backyard ‘B’, the left side ‘L’ and the right side ‘R’. 
 
-There are 1028 squares worth of yard space, if Jenkins wrote ‘FBFBBFFRLR’
-We can see the 2 steps ‘FBFBBFF’ | ‘RLR’ 
-We can start by ordering the front and back 0 to 127
-F means front yard so you cut the yard in half towards the front and look at 0 to 63
-B means backyard so you cut the yard in half again towards the backyard 32 to 63
-F moves you to 32 to 47
-B moves you to 40 to 47
-B moves you to 44 to 47
-F moves you to 44 to 45
-Lastly F tells you that is in row 44
-Next we can use the RLR to find the column
-R means right half so you move to 4 to 7
-L means left so you move to 4 to 5
-Lastly R tells you the column is 5
- *\
- 
+  // There are 1028 squares worth of yard space, if Jenkins wrote ‘FBFBBFFRLR’
+  // We can see the 2 steps ‘FBFBBFF’ | ‘RLR’ 
+  // We can start by ordering the front and back 0 to 127
+  // F means front yard so you cut the yard in half towards the front and look at 0 to 63
+  // B means backyard so you cut the yard in half again towards the backyard 32 to 63
+  // F moves you to 32 to 47
+  // B moves you to 40 to 47
+  // B moves you to 44 to 47
+  // F moves you to 44 to 45
+  // Lastly F tells you that is in row 44
+  // Next we can use the RLR to find the column
+  // R means right half so you move to 4 to 7
+  // L means left so you move to 4 to 5
+  // Lastly R tells you the column is 5
+  
+  let arr = [];
+  let Fyard=1;
+  let Byard=128;
+  let Lside=1;
+  let Rside=8;
+
+    for(var i = 0; i < input.length; i++){
+      var x = input[i].match(/.{3,7}/g) || [];
+      arr.push(x);
+    }
+
+for (let i = 0; i < arr.length; i++) {
+  let col = arr[i][0].split('')//first seven
+  let row = arr[i][1].split('')//last three
+
+  switch (col) {
+    case 'F':
+      statements
+      break;
+    case 'B':
+      statements
+    break;
+
+    default:
+      statements
+  }
+  
+
+  switch (row) {
+    case 'R':
+      statements
+      break;
+    case 'L':
+      statements
+      break;
+    default:
+      statements
+  }
+}
+
