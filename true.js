@@ -1,4 +1,4 @@
-const input = [
+let input = [
     "FBFFBFFRLL",
     "BFFFFBBRLR",
     "FFFBBBBRLR",
@@ -780,62 +780,91 @@ const input = [
     "BBFBFFFLLL",
     "FBFBFBFLRR",
     "BFBFFFFRLL",
-  ];
+];
 
-  // You dig through the papers and find his logs. He has a system of labeling the front of the yard ‘F’, backyard ‘B’, the left side ‘L’ and the right side ‘R’. 
 
-  // There are 1028 squares worth of yard space, if Jenkins wrote ‘FBFBBFFRLR’
-  // We can see the 2 steps ‘FBFBBFF’ | ‘RLR’ 
-  // We can start by ordering the front and back 0 to 127
-  // F means front yard so you cut the yard in half towards the front and look at 0 to 63
-  // B means backyard so you cut the yard in half again towards the backyard 32 to 63
-  // F moves you to 32 to 47
-  // B moves you to 40 to 47
-  // B moves you to 44 to 47
-  // F moves you to 44 to 45
-  // Lastly F tells you that is in row 44
-  // Next we can use the RLR to find the column
-  // R means right half so you move to 4 to 7
-  // L means left so you move to 4 to 5
-  // Lastly R tells you the column is 5
-  
-  let arr = [];
-  let Fyard=1;
-  let Byard=128;
-  let Lside=1;
-  let Rside=8;
+// Lists to hold different parts of the input
+let rowCodes = [];
+let colCodes = [];
 
-    for(var i = 0; i < input.length; i++){
-      var x = input[i].match(/.{3,7}/g) || [];
-      arr.push(x);
+// Separate row and column codes
+for (let i = 0; i < input.length; i++) {
+  rowCodes.push(input[i].substring(0, 7));
+  colCodes.push(input[i].substring(7, 10));
+}
+
+// Lists to hold calculated row and column values
+let rowValues = [];
+let colValues = [];
+
+// Calculate row values
+for (let i = 0; i < rowCodes.length; i++) {
+  let front = 0;
+  let back = 127;
+
+  for (let j = 0; j < rowCodes[i].length; j++) {
+    if (rowCodes[i][j] == 'F') {
+      back = Math.floor((front + back) / 2);
+    } else {
+      front = Math.ceil((front + back) / 2);
     }
-
-for (let i = 0; i < arr.length; i++) {
-  let col = arr[i][0].split('')//first seven
-  let row = arr[i][1].split('')//last three
-
-  switch (col) {
-    case 'F':
-      statements
-      break;
-    case 'B':
-      statements
-    break;
-
-    default:
-      statements
   }
-  
+  rowValues.push(front);
+}
 
-  switch (row) {
-    case 'R':
-      statements
-      break;
-    case 'L':
-      statements
-      break;
-    default:
-      statements
+// Calculate column values
+for (let i = 0; i < colCodes.length; i++) {
+  let left = 0;
+  let right = 7;
+
+  for (let j = 0; j < colCodes[i].length; j++) {
+    if (colCodes[i][j] == 'L') {
+      right = Math.floor((right + left) / 2);
+    } else {
+      left = Math.ceil((right + left) / 2);
+    }
+  }
+  colValues.push(left);
+}
+
+// Calculate square Nums
+let squareNums = [];
+for (let i = 0; i < input.length; i++) {
+  squareNums.push(rowValues[i] * 8 + colValues[i]);
+}
+
+// Find the lowest and highest square Nums
+let lowestNum = Math.min(...squareNums);
+let highestNum = Math.max(...squareNums);
+
+// Find the missing square Num
+let missingNum;
+for (let i = lowestNum; i <= highestNum; i++) {
+  if (!squareNums.includes(i)) {
+    missingNum = i;
+    break;
   }
 }
 
+console.log("Lowest square Num:", lowestNum);
+console.log("Highest square Num:", highestNum);
+console.log("Missing square Num:", missingNum);
+
+
+// ProvNumed code snippet
+let rows1 = [];
+let cols1 = [];
+
+for (i = 0; i < squareNums.length; i++) {
+    let row1 = Math.floor(squareNums[i] / 8);
+    let col1 = squareNums[i] % 8;
+
+    rows1.push(row1);
+    cols1.push(col1);
+}
+
+let totalRow1 = rows1.reduce((accumulator, currentNumber) => accumulator + currentNumber, 0);
+let totalCol1 = cols1.reduce((accumulator, currentNumber) => accumulator + currentNumber, 0);
+
+let password = `${totalCol1 * totalRow1}`.split("0").join("");
+console.log("Password:", password);
